@@ -11,4 +11,6 @@ const BoardSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.models.Note || mongoose.model('Board', BoardSchema);
+// export default (mongoose.models && mongoose.models.)
+
+module.exports = mongoose.models.Board || mongoose.model('Board', BoardSchema);

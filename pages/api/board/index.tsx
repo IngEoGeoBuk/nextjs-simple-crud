@@ -12,7 +12,6 @@ export default async (req: any, res: any) => {
             try {
                 const boards = await Board.find({});
                 res.status(200).json({ success: true, data: boards })
-                
             } catch (error) {
                 res.status(400).json({ success: false });
             }
@@ -20,8 +19,8 @@ export default async (req: any, res: any) => {
         // 게시글 생성
         // case 'POST':
         //     try {
-        //         const notes = await Note.create(req.body);
-        //         res.status(201).json({ success: true, data: notes })
+        //         const boards = await Note.create(req.body);
+        //         res.status(201).json({ success: true, data: boards })
         //     } catch (error) {
         //         res.status(400).json({ success: false });
         //     }

@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 interface boardTypes {
     _id: string,
@@ -45,6 +46,19 @@ export const getStaticProps = async (context: any) => {
 }
 
 const Details = ({ board } : boardsTypes ) => {
+    const router = useRouter();
+    const deleteBoard = async () => {
+        const id = board._id;
+        try {
+            const deleted = await fetch(`http://localhost:3000/api/board/${id}`, {
+                method: "Delete"
+            });
+            router.push("/");
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <div>
             글 제목 : {board.title}
@@ -54,6 +68,12 @@ const Details = ({ board } : boardsTypes ) => {
             <Link href='/'>
                 <button>뒤로가기</button>
             </Link>
+            <br /><br />
+            <Link href={`/update/${board._id}`}>
+                <button>글 수정</button>
+            </Link>
+            <br /><br />
+            <button onClick={deleteBoard}>글삭제</button>
         </div>
     )
 }

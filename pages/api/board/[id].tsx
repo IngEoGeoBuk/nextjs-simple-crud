@@ -22,6 +22,36 @@ export default async (req: any, res: any) => {
                 res.status(400).json({ success: false });
             }
             break;
+        // 게시글 수정
+        case 'PUT':
+            try {
+                const updateBoard = await Board.findByIdAndUpdate(id, req.body, {
+                    new: true,
+                    runValidators: true
+                });
+                if (!updateBoard) {
+                    return res.status(400).json({ success: false });
+                }
+                res.status(200).json({ success: true, data: updateBoard })
+            } catch (error) {
+                res.status(400).json({ success: false });
+            }
+            break;
+        // 게시글 삭제
+        case 'DELETE':
+            try {
+                const deletedBoard = await Board.deleteOne({ _id: id })
+                if (!deletedBoard) {
+                    return res.status(400).json({ success: false });
+                }
+                res.status(200).json({ success: true, data: {} })
+            } catch (error) {
+                res.status(400).json({ success: false });
+            }
+            break;
+
+
+
         default:
             res.status(400).json({ success: false });
             break;

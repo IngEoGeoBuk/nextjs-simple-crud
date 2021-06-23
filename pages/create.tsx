@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-unfetch'
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/dist/client/router';
 

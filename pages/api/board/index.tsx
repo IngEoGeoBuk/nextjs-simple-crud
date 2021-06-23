@@ -17,14 +17,14 @@ export default async (req: any, res: any) => {
             }
             break;
         // 게시글 생성
-        // case 'POST':
-        //     try {
-        //         const boards = await Note.create(req.body);
-        //         res.status(201).json({ success: true, data: boards })
-        //     } catch (error) {
-        //         res.status(400).json({ success: false });
-        //     }
-        //     break;
+        case 'POST':
+            try {
+                const board = await Board.create(req.body);
+                res.status(201).json({ success: true, data: board })
+            } catch (error) {
+                res.status(400).json({ success: false });
+            }
+            break;
         default:
             res.status(400).json({ success: false });
             break;

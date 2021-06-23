@@ -14,7 +14,13 @@ interface boardsTypes {
 }
 
 export const getStaticProps = async () => {
-  const res = await fetch('http://localhost:3000/api/board');
+  const res = await fetch('http://localhost:3000/api/board', {
+    method: 'GET',
+    headers: {
+      "Accept": "application/json",
+      "Content-Type": "application/json"
+    },
+  });
   const data = await res.json();
   return {
     props: {
@@ -24,10 +30,10 @@ export const getStaticProps = async () => {
 }
 
 const Home = ({ boards }: boardsTypes) => {
-  
   return (
     <>
       글 목록들 
+      <br/>
       <button>
         <Link href='/create'>
           글생성

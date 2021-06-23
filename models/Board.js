@@ -5,7 +5,7 @@ const BoardSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    conetents: {
+    contents: {
         type: String,
         required: true
     }

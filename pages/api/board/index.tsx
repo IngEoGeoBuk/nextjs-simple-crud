@@ -1,9 +1,16 @@
 import dbConnect from "../../../utils/dbConnect";
-import Board from '../../../models/Board.js';
+import { Board } from '../../../models/Board';
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { ModelBoardType } from '../../../types'
+
+interface DataType {
+    data?: ModelBoardType[] | ModelBoardType
+    success: boolean,
+}
 
 dbConnect();
 
-export default async (req: any, res: any) => {
+export default async (req: NextApiRequest, res: NextApiResponse<DataType>) => {
     const { method } = req;
 
     switch (method) {

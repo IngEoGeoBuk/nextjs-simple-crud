@@ -1,9 +1,16 @@
 import dbConnect from "../../../utils/dbConnect";
-import Board from '../../../models/Board.js';
+import { Board } from '../../../models/Board';
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { ModelBoardType } from '../../../types'
+
+interface DataType {
+    data?: ModelBoardType
+    success: boolean,
+}
 
 dbConnect();
 
-export default async (req: any, res: any) => {
+export default async (req: NextApiRequest, res: NextApiResponse<DataType>) => {
     const {
         query: { id },
         method
@@ -44,7 +51,7 @@ export default async (req: any, res: any) => {
                 if (!deletedBoard) {
                     return res.status(400).json({ success: false });
                 }
-                res.status(200).json({ success: true, data: {} })
+                res.status(200).json({ success: true })
             } catch (error) {
                 res.status(400).json({ success: false });
             }

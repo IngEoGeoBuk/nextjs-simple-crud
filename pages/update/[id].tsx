@@ -2,24 +2,18 @@ import fetch from 'isomorphic-unfetch'
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/dist/client/router';
+import { BoardType } from '../../types'
+import { GetServerSideProps } from 'next'
 
-interface boardTypes {
-    _id: string,
-    title: string,
-    contents: string,
-    __v?: number,
+interface DataType {
+    board: BoardType;
 }
-
-interface boardsTypes {
-    board: boardTypes;
-}
-
 
 export const getStaticPaths = async () => {
-    const res = await fetch('http://localhost:3000/api/board');
+    const res = await fetch(`http://localhost:3000/api/board`);
     const data = await res.json();
 
-    const paths = data.data.map((data: boardTypes) => {
+    const paths = data.data.map((data: BoardType) => {
         return {
             params: { id: data._id }
         }
@@ -31,9 +25,9 @@ export const getStaticPaths = async () => {
     }
 }
 
-export const getStaticProps = async (context: any) => {
-    const id = context.params.id;
-    const res = await fetch('http://localhost:3000/api/board/' + id, {
+export const getStaticProps: GetServerSideProps = async (context) => {
+    const id = context?.params?.id;
+    const res = await fetch(`http://localhost:3000/api/board/${id}`, {
         method: 'GET',
         headers: {
             "Accept": "application/json",
@@ -46,7 +40,7 @@ export const getStaticProps = async (context: any) => {
     }
 }
 
-const Update = ({ board }: boardsTypes ) => {
+const Update = ({ board }: DataType ) => {
     const [title, setTitle] = useState<string>(`${board.title}`);
     const [contents, setContents] = useState<string>(`${board.contents}`);
     const router = useRouter();

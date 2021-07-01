@@ -1,20 +1,14 @@
 import React from 'react'
 import Link from 'next/link';
 import fetch from 'isomorphic-unfetch'
+import { BoardType } from '../types'
 
-interface boardTypes {
-  _id: string,
-  title: string,
-  contents: string,
-  __v?: number,
-}
-
-interface boardsTypes {
-  boards: boardTypes[];
+interface DataType {
+  boards: BoardType[]
 }
 
 export const getStaticProps = async () => {
-  const res = await fetch('http://localhost:3000/api/board', {
+  const res = await fetch(`http://localhost:3000/api/board`, {
     method: 'GET',
     headers: {
       "Accept": "application/json",
@@ -29,7 +23,7 @@ export const getStaticProps = async () => {
   }
 }
 
-const Home = ({ boards }: boardsTypes) => {
+const Home = ({ boards }: DataType) => {
   return (
     <>
       글 목록들 
@@ -40,7 +34,7 @@ const Home = ({ boards }: boardsTypes) => {
         </Link>
       </button>
       <br /><br />
-      {boards.map((board: boardTypes) => {
+      {boards.map((board: BoardType) => {
         return (
           <div key={board._id}>
             <Link href={`/${board._id}`}>

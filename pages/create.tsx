@@ -10,7 +10,7 @@ const Create = () => {
 
     const CreatePost = async () => {
         try {
-            const res = await fetch(`http://localhost:3000/api/board`, {
+            const res = await fetch(`${process.env.SERVER_URL}/api/board`, {
                 method: 'POST',
                 headers: {
                     "Accept": "application/json",

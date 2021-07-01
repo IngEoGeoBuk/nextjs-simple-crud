@@ -10,7 +10,7 @@ interface DataType {
 }
 
 export const getStaticPaths = async () => {
-    const res = await fetch(`http://localhost:3000/api/board`);
+    const res = await fetch(`${process.env.SERVER_URL}/api/board`);
     const data = await res.json();
 
     const paths = data.data.map((data: BoardType) => {
@@ -27,7 +27,7 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps: GetServerSideProps = async (context) => {
     const id = context?.params?.id;
-    const res = await fetch(`http://localhost:3000/api/board/${id}`, {
+    const res = await fetch(`${process.env.SERVER_URL}/api/board/${id}`, {
         method: 'GET',
         headers: {
             "Accept": "application/json",
@@ -47,7 +47,7 @@ const Update = ({ board }: DataType ) => {
 
     const UpdatePost = async () => {
         try {
-            const res = await fetch(`http://localhost:3000/api/board/${board._id}`, {
+            const res = await fetch(`${process.env.SERVER_URL}/api/board/${board._id}`, {
                 method: 'PUT',
                 headers: {
                     "Accept": "application/json",

@@ -9,7 +9,7 @@ interface DataType {
 }
 
 export const getStaticPaths = async () => {
-    const res = await fetch(`http://localhost:3000/api/board`);
+    const res = await fetch(`${process.env.SERVER_URL}/api/board`);
     const data = await res.json();
 
     const paths = data.data.map((data: BoardType) => {
@@ -26,7 +26,7 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps: GetServerSideProps = async (context) => {
     const id = context?.params?.id;
-    const res = await fetch(`http://localhost:3000/api/board/${id}`, {
+    const res = await fetch(`${process.env.SERVER_URL}/api/board/${id}`, {
         method: 'GET',
         headers: {
             "Accept": "application/json",
@@ -44,7 +44,7 @@ const Details = ({ board }: DataType ) => {
     const deleteBoard = async () => {
         const id = board._id;
         try {
-            const deleted = await fetch(`http://localhost:3000/api/board/${id}`, {
+            const deleted = await fetch(`${process.env.SERVER_URL}/api/board/${id}`, {
                 method: "Delete"
             });
             router.push("/");

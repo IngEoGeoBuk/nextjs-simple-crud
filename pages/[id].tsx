@@ -3,39 +3,18 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { BoardType } from '../types'
 import { GetServerSideProps } from 'next'
+import Axios from 'axios'
 
 interface DataType {
     board: BoardType
 }
 
-export const getStaticPaths = async () => {
-    const res = await fetch(`${process.env.SERVER_URL}/api/board`);
-    const data = await res.json();
-
-    const paths = data.data.map((data: BoardType) => {
-        return {
-            params: { id: data._id }
-        }
-    })
-
-    return {
-        paths,
-        fallback: false
-    }
-}
-
-export const getStaticProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
     const id = context?.params?.id;
-    const res = await fetch(`${process.env.SERVER_URL}/api/board/${id}`, {
-        method: 'GET',
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        },
-    });
-    const data = await res.json();
+    const boardData = await Axios.get(`${process.env.SERVER_URL}/api/board/${id}`);
+
     return {
-        props: { board: data.data }
+        props: { board: boardData.data.data }
     }
 }
 
@@ -43,14 +22,11 @@ const Details = ({ board }: DataType ) => {
     const router = useRouter();
     const deleteBoard = async () => {
         const id = board._id;
-        try {
-            const deleted = await fetch(`${process.env.SERVER_URL}/api/board/${id}`, {
-                method: "Delete"
-            });
+        Axios.delete(`${process.env.SERVER_URL}/api/board/${id}`)
+        .then((res) => {
             router.push("/");
-        } catch (error) {
-            console.log(error)
-        }
+        })
+        .catch((error) => console.log(error));
     }
 
     return (

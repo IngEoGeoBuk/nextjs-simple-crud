@@ -1,24 +1,17 @@
 import React from 'react'
 import Link from 'next/link';
-import fetch from 'isomorphic-unfetch'
 import { BoardType } from '../types'
+import Axios from 'axios'
 
 interface DataType {
   boards: BoardType[]
 }
 
-export const getStaticProps = async () => {
-  const res = await fetch(`${process.env.SERVER_URL}/api/board`, {
-    method: 'GET',
-    headers: {
-      "Accept": "application/json",
-      "Content-Type": "application/json"
-    },
-  });
-  const data = await res.json();
+export const getServerSideProps = async () => {
+  const boardsData = await Axios.get(`${process.env.SERVER_URL}/api/board`);
   return {
     props: {
-      boards: data.data
+      boards: boardsData.data.data
     }
   }
 }

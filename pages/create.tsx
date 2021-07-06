@@ -1,7 +1,7 @@
-import fetch from 'isomorphic-unfetch'
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/dist/client/router';
+import Axios from 'axios'
 
 const Create = () => {
     const [title, setTitle] = useState<string>('');
@@ -9,19 +9,10 @@ const Create = () => {
     const router = useRouter();
 
     const CreatePost = async () => {
-        try {
-            const res = await fetch(`${process.env.SERVER_URL}/api/board`, {
-                method: 'POST',
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ title, contents })
-            })
-            router.push("/");
-        } catch (error) {
-            console.log(error);
-        }
+        Axios.post(`${process.env.SERVER_URL}/api/board`, {
+            title, contents
+        })
+        router.push("/");
     }
 
     return (
